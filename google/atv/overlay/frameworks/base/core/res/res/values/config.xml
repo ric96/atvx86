@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <!-- Flag indicating that the media framework should allow changing
+         master volume stream and nothing else . -->
+    <bool name="config_useMasterVolume">true</bool>
+
+    <!-- Flag indicating that the media framework should support playing of sounds on volume
+         key usage.  This adds noticeable additional overhead to volume key processing, so
+         is disableable for products for which it is irrelevant. -->
+    <bool name="config_useVolumeKeySounds">false</bool>
+
+    <!-- Disable AUDIO_BECOMING_NOISY notifications. -->
+    <bool name="config_sendAudioBecomingNoisy">false</bool>
+
+    <!-- This device is data-only. -->
+    <bool name="config_voice_capable">false</bool>
+
+    <!-- This device does not allow sms service. -->
+    <bool name="config_sms_capable">false</bool>
+
+    <!-- Control the default UI mode type to use when there is no other type override
+         happening.  One of the following values (See Configuration.java):
+             1  UI_MODE_TYPE_NORMAL
+             4  UI_MODE_TYPE_TELEVISION
+             5  UI_MODE_TYPE_APPLIANCE
+         Any other values will have surprising consequences. -->
+    <integer name="config_defaultUiModeType">4</integer>
+
+    <!-- Override long press on home: launch assist intent. -->
+    <integer name="config_longPressOnHomeBehavior">2</integer>
+
+    <!-- Override configuration check for dpad so that we always appear to have one -->
+    <bool name="config_hasPermanentDpad">true</bool>
+
+    <bool name="config_defaultInTouchMode">false</bool>
+</resources>
