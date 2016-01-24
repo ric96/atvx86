@@ -8,7 +8,9 @@ Step 2:
    Copy the google folder inside the device folder of your work directory.
    OR
      Add the following line to the default manifest: 
-     "<project path="device/google/atv" name="device/google/atv" groups="device,fugu,broadcom_pdk,generic_fs"/>"
+     ```
+     <project path="device/google/atv" name="device/google/atv" groups="device,fugu,broadcom_pdk,generic_fs"/>
+     ```
      and repo sync again.
      
 Step 3: 
