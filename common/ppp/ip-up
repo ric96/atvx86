@@ -1,0 +1,24 @@
+#!/system/bin/sh
+export PATH=/system/bin
+
+case $1 in
+    ppp1)
+	iptables --flush
+	iptables --table nat --flush
+	iptables --delete-chain
+	iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE
+	iptables --append FORWARD --in-interface ppp1 -j ACCEPT
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	;;
+    ppp0)
+        setprop "net.interfaces.defaultroute" "gprs"
+        ;;
+esac
+
+# Use interface name if linkname is not available
+NAME=${LINKNAME:-"$1"}
+
+setprop "net.dns1" "$DNS1"
+setprop "net.dns2" "$DNS2"
+setprop "net.$NAME.local-ip" "$IPLOCAL"
+setprop "net.$NAME.gw" "$IPREMOTE"

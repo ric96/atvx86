@@ -1,0 +1,3 @@
+none			/cache		tmpfs	nosuid,nodev,noatime	defaults
+
+/devices/*/usb*/*	auto		auto	defaults		voldmanaged=usb:auto

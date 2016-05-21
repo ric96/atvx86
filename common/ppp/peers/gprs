@@ -1,0 +1,11 @@
+#/etc/ppp/peers/gprs
+# This is pppd script for China Mobile, used Huawei GTM900-B GPRS Module
+# Usage:   root>pppd call gprs
+
+460800
+nocrtscts
+usepeerdns
+debug
+ipcp-accept-local
+ipcp-accept-remote
+defaultroute

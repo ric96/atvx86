@@ -1,0 +1,3 @@
+# system.prop for marshmallow-x86
+#poweroff.doubleclick=1
+qemu.hw.mainkeys=1

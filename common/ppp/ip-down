@@ -1,0 +1,16 @@
+#!/system/bin/sh
+export PATH=/system/bin
+
+case $1 in
+    ppp1)
+	echo 0 > /proc/sys/net/ipv4/ip_forward
+	;;
+esac
+
+# Use interface name if linkname is not available
+NAME=${LINKNAME:-"$1"}
+
+setprop "net.dns1" ""
+setprop "net.dns2" ""
+setprop "net.$NAME.local-ip" ""
+setprop "net.$NAME.remote-ip" ""
