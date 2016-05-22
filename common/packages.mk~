@@ -22,7 +22,9 @@ PRODUCT_PACKAGES := \
     Galaxy4 \
     GlobalTime \
     HoloSpiralWallpaper \
-    Launcher3 \
+    LeanbackLauncher \
+    AtvRemoteService \
+    TV \
     LiveWallpapers \
     LiveWallpapersPicker \
     MagicSmokeWallpapers \

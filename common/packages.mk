@@ -24,6 +24,7 @@ PRODUCT_PACKAGES := \
     HoloSpiralWallpaper \
     LeanbackLauncher \
     AtvRemoteService \
+    TV \
     LiveWallpapers \
     LiveWallpapersPicker \
     MagicSmokeWallpapers \

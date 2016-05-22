@@ -16,10 +16,7 @@
 
 <resources>
 
-    <!-- Empty stub status/navigation bar -->
-    <string name="config_statusBarComponent" translatable="false">com.android.systemui.statusbar.tv.TvStatusBar</string>
-
-    <!-- Disable KeyguardSerivce -->
-    <bool name="config_enableKeyguardService">false</bool>
+    <!-- Height of the bottom navigation bar -->
+    <dimen name="navigation_bar_height">0dp</dimen>
 
 </resources>

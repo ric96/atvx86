@@ -14,12 +14,28 @@
      limitations under the License.
 -->
 
-<resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Empty stub status/navigation bar -->
-    <string name="config_statusBarComponent" translatable="false">com.android.systemui.statusbar.tv.TvStatusBar</string>
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="#44ffffff" />
+        </shape>
+    </item>
 
-    <!-- Disable KeyguardSerivce -->
-    <bool name="config_enableKeyguardService">false</bool>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <solid android:color="#44ffffff" />
+            </shape>
+        </clip>
+    </item>
 
-</resources>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#ff33b5e5" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

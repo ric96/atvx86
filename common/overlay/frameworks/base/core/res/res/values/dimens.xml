@@ -16,10 +16,16 @@
 
 <resources>
 
-    <!-- Empty stub status/navigation bar -->
-    <string name="config_statusBarComponent" translatable="false">com.android.systemui.statusbar.tv.TvStatusBar</string>
+    <!-- Height of the status bar -->
+    <dimen name="status_bar_height">0dp</dimen>
 
-    <!-- Disable KeyguardSerivce -->
-    <bool name="config_enableKeyguardService">false</bool>
+    <!-- Height of the bottom navigation / system bar -->
+    <dimen name="navigation_bar_height">0dp</dimen>
+
+    <!-- Height of the bottom navigation bar in landscape -->
+    <dimen name="navigation_bar_height_landscape">0dp</dimen>
+
+    <!-- Width of the navigation bar when it is placed vertically on the screen -->
+    <dimen name="navigation_bar_width">42dp</dimen>
 
 </resources>
