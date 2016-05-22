@@ -2,7 +2,7 @@
 Android TV based on Android-x86
 
 Step 1:
-   Copy the file inside the device folder to androidtv-x86/device/generic/common and overwrite any existing files
+   Copy the "common" inside the device folder to androidtv-x86/device/generic/ and overwrite any existing files
    
 Step 2:
    Copy the google folder inside the device folder of your work directory.
