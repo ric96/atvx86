@@ -74,13 +74,13 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-PRODUCT_CHARACTERISTICS := tablet
+PRODUCT_CHARACTERISTICS := tv
 
 PRODUCT_AAPT_CONFIG := normal tvdpi hdpi
 PRODUCT_AAPT_PREF_CONFIG := tvdpi
 
 DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
-
+PRODUCT_LOCALES := en_US,ko_KR,ja_JP,zh_CN,hi_IN,en_GB,de_DE,fr_FR,it_IT,ru_RU,es_ES,pt_PT
 # Get the firmwares
 $(call inherit-product,device/generic/firmware/firmware.mk)
 

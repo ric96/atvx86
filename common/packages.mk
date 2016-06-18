@@ -17,23 +17,8 @@
 # Common packages for Android-x86 platform.
 
 PRODUCT_PACKAGES := \
-    BasicSmsReceiver \
-    Development \
-    Galaxy4 \
-    GlobalTime \
-    HoloSpiralWallpaper \
     LeanbackLauncher \
     AtvRemoteService \
-    TV \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    MagicSmokeWallpapers \
-    NotePad \
-    PhaseBeam \
-    PinyinIME \
-    Provision \
-    RSSReader \
-    VisualizationWallpapers \
     camera.x86 \
     chat \
     com.android.future.usb.accessory \
@@ -55,8 +40,6 @@ PRODUCT_PACKAGES := \
     sftp \
     ssh \
     sshd \
-    su \
-    tablet-mode \
     v86d \
     wacom-input \
 
