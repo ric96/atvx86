@@ -20,4 +20,7 @@ Step 3:
    vendor/google/fugu/proprietary/LeanbackLauncher.apk
    Source: https://github.com/peyo-hd/device_brcm_rpi2/wiki#how-to-apply-android-tv-leanback-launcher
    
+Step 4:
+   Copy and Replace BrowseInfo.java to ``` packages/apps/TVSettings/Settings/src/com/android/tv/settings/ ```
+   
 And then follow the normal Android-x86 build process
