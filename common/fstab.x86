@@ -1,3 +1,5 @@
 none			/cache		tmpfs	nosuid,nodev,noatime	defaults
 
-/devices/*/usb*/*	auto		auto	defaults		voldmanaged=usb:auto
+/devices/*/usb*/*		auto	auto	defaults		voldmanaged=usb:auto,encryptable=userdata
+/devices/*/*sdmmc*/*		auto	auto	defaults		voldmanaged=sdcard1:auto,encryptable=userdata
+/devices/*/80860F14:01/mmc_*	auto	auto	defaults		voldmanaged=sdcard1:auto,encryptable=userdata

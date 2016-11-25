@@ -18,5 +18,6 @@ LOCAL_CFLAGS := -Werror -Wall
 LOCAL_CPPFLAGS := -std=c++11
 LOCAL_SHARED_LIBRARIES := libcutils libdl liblog
 LOCAL_MULTILIB := both
+LOCAL_POST_INSTALL_CMD := mkdir -p $(TARGET_OUT)/{lib/arm,$(if $(filter true,$(TARGET_IS_64_BIT)),lib64/arm64)}
 
 include $(BUILD_SHARED_LIBRARY)

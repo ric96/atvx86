@@ -9,9 +9,9 @@
 #
 
 PRODUCT_PACKAGES := \
-    hwcomposer.drm  \
     gralloc.drm     \
-    libGLES_mesa
+    libGLES_mesa    \
+    libtxc_dxtn     \
 
 PRODUCT_PROPERTY_OVERRIDES := \
     ro.opengles.version = 196608

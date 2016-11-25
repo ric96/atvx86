@@ -735,7 +735,7 @@ static int __init hdaps_dmi_match_invert(const struct dmi_system_id *id)
    Note that HDAPS_DMI_MATCH_NORMAL("ThinkPad T42") would match
    "ThinkPad T42p", and enumeration stops after first match,
    so the order of the entries matters. */
-struct dmi_system_id __initdata hdaps_whitelist[] = {
+struct dmi_system_id __initconst hdaps_whitelist[] = {
 	HDAPS_DMI_MATCH_INVERT("IBM", "ThinkPad R50p", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("IBM", "ThinkPad R60", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("IBM", "ThinkPad T41p", HDAPS_ORIENT_INVERT_XY),
@@ -744,6 +744,8 @@ struct dmi_system_id __initdata hdaps_whitelist[] = {
 	HDAPS_DMI_MATCH_INVERT("IBM", "ThinkPad X41", HDAPS_ORIENT_INVERT_Y),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad R60", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad R61", HDAPS_ORIENT_INVERT_XY),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad R400", HDAPS_ORIENT_INVERT_XY),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad R500", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T60", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T61", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad X60 Tablet", HDAPS_ORIENT_INVERT_Y),
@@ -755,7 +757,10 @@ struct dmi_system_id __initdata hdaps_whitelist[] = {
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T410s", HDAPS_ORIENT_SWAP),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T410", HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T500", HDAPS_ORIENT_INVERT_XY),
-	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad W51O", HDAPS_ORIENT_MAX),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad T510", HDAPS_ORIENT_SWAP | HDAPS_ORIENT_INVERT_X | HDAPS_ORIENT_INVERT_Y),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad W510", HDAPS_ORIENT_MAX),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad W520", HDAPS_ORIENT_MAX),
+	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad X200s", HDAPS_ORIENT_SWAP | HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad X200", HDAPS_ORIENT_SWAP | HDAPS_ORIENT_INVERT_X | HDAPS_ORIENT_INVERT_Y),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad X201 Tablet", HDAPS_ORIENT_SWAP | HDAPS_ORIENT_INVERT_XY),
 	HDAPS_DMI_MATCH_INVERT("LENOVO", "ThinkPad X201s", HDAPS_ORIENT_SWAP | HDAPS_ORIENT_INVERT_XY),
@@ -806,7 +811,7 @@ static int __init hdaps_init(void)
 	needs_calibration = 1;
 
 	/* initialize the joystick-like fuzzed input device */
-	hdaps_idev->name = "hdaps";
+	hdaps_idev->name = "ThinkPad HDAPS joystick emulation";
 	hdaps_idev->phys = "hdaps/input0";
 	hdaps_idev->id.bustype = BUS_HOST;
 	hdaps_idev->id.vendor  = HDAPS_INPUT_VENDOR;
@@ -828,7 +833,7 @@ static int __init hdaps_init(void)
 		goto out_idev;
 
 	/* initialize the raw data input device */
-	hdaps_idev_raw->name = "raw_hdaps_data";
+	hdaps_idev_raw->name = "ThinkPad HDAPS accelerometer data";
 	hdaps_idev_raw->phys = "hdaps/input1";
 	hdaps_idev_raw->id.bustype = BUS_HOST;
 	hdaps_idev_raw->id.vendor  = HDAPS_INPUT_VENDOR;

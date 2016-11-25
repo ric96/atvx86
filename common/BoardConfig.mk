@@ -1,11 +1,12 @@
 #
 # BoardConfig.mk for x86 platform
 #
-
+#ANDROID_JACK_VM_ARGS := -Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m
 TARGET_BOARD_PLATFORM := android-x86
 
 # Some framework code requires this to enable BT
 BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_LINUX := true
 
 BOARD_USE_LEGACY_UI := true
 
@@ -18,7 +19,7 @@ BOARD_MALLOC_ALIGNMENT := 16
 # of an SDK AVD. Note that this operation only works on Linux for now
 ifeq ($(HOST_OS),linux)
 WITH_DEXPREOPT := true
-TARGET_GCC_VERSION_EXP := 4.9
+WITH_DEXPREOPT_PIC := true
 endif
 
 # the following variables could be overridden
@@ -77,4 +78,9 @@ TARGET_HARDWARE_3D := true
 BOARD_EGL_CFG ?= device/generic/common/gpu/egl_mesa.cfg
 endif
 
-BOARD_KERNEL_CMDLINE := root=/dev/ram0 androidboot.hardware=$(TARGET_PRODUCT)
+BOARD_KERNEL_CMDLINE := root=/dev/ram0 androidboot.selinux=permissive
+TARGET_KERNEL_DIFFCONFIG := device/generic/common/selinux_diffconfig
+
+COMPATIBILITY_ENHANCEMENT_PACKAGE := true
+PRC_COMPATIBILITY_PACKAGE := true
+ZIP_OPTIMIZATION_NO_INTEGRITY := true

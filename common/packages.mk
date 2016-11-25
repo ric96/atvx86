@@ -17,8 +17,22 @@
 # Common packages for Android-x86 platform.
 
 PRODUCT_PACKAGES := \
+    BasicSmsReceiver \
+    Development \
+    Galaxy4 \
+    GlobalTime \
+    HoloSpiralWallpaper \
     LeanbackLauncher \
     AtvRemoteService \
+    LiveWallpapers \
+    LiveWallpapersPicker \
+    MagicSmokeWallpapers \
+    NotePad \
+    PhaseBeam \
+    PinyinIME \
+    Provision \
+    RSSReader \
+    VisualizationWallpapers \
     camera.x86 \
     chat \
     com.android.future.usb.accessory \
@@ -34,12 +48,15 @@ PRODUCT_PACKAGES := \
     lights.default \
     make_ext4fs \
     parted \
+    power.x86 \
     powerbtnd \
     scp \
     sensors.hsb \
     sftp \
     ssh \
     sshd \
+    su \
+    tablet-mode \
     v86d \
     wacom-input \
 
@@ -52,7 +69,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     badblocks \
     e2fsck \
+    fsck.exfat \
+    fsck.f2fs \
     mke2fs \
+    make_f2fs \
+    mkfs.exfat \
     mkntfs \
     mount.exfat \
     ntfs-3g \
@@ -60,6 +81,12 @@ PRODUCT_PACKAGES += \
     resize2fs \
     tune2fs \
 
+PRODUCT_PACKAGES += \
+    btattach \
+    hciconfig \
+    hcitool \
+
 # Third party apps
 PRODUCT_PACKAGES += \
     CMFileManager \
+    Eleven \

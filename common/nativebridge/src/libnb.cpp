@@ -115,14 +115,14 @@ static void __attribute__ ((destructor)) on_dlclose()
 extern "C" {
 
 NativeBridgeCallbacks NativeBridgeItf = {
-    version: 2,
-    initialize: &native_bridge2_initialize,
-    loadLibrary: &native_bridge2_loadLibrary,
-    getTrampoline: &native_bridge2_getTrampoline,
-    isSupported: &native_bridge2_isSupported,
-    getAppEnv: &native_bridge2_getAppEnv,
-    isCompatibleWith: &native_bridge2_is_compatible_compatible_with,
-    getSignalHandler: &native_bridge2_get_signal_handler,
+    .version = 2,
+    .initialize = &native_bridge2_initialize,
+    .loadLibrary = &native_bridge2_loadLibrary,
+    .getTrampoline = &native_bridge2_getTrampoline,
+    .isSupported = &native_bridge2_isSupported,
+    .getAppEnv = &native_bridge2_getAppEnv,
+    .isCompatibleWith = &native_bridge2_is_compatible_compatible_with,
+    .getSignalHandler = &native_bridge2_get_signal_handler,
 };
 
 } // extern "C"

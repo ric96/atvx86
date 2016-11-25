@@ -6,8 +6,8 @@
 
 function set_property()
 {
-	# this must be run before post-fs stage
-	echo $1=$2 >> /x86.prop
+	setprop "$1" "$2"
+	[ -n "$DEBUG" ] && echo "$1"="$2" >> /dev/x86.prop
 }
 
 function init_misc()
@@ -32,6 +32,10 @@ function init_hal_audio()
 		*)
 			;;
 	esac
+
+	if [ "`cat /proc/asound/card0/id`" = "IntelHDMI" ]; then
+		[ -d /proc/asound/card1 ] || set_property ro.hardware.audio.primary hdmi
+	fi
 }
 
 function init_hal_bluetooth()
@@ -44,31 +48,40 @@ function init_hal_bluetooth()
 	case "$PRODUCT" in
 		T10*TA|HP*Omni*)
 			BTUART_PORT=/dev/ttyS1
+			set_property hal.bluetooth.uart.proto bcm
 			;;
 		MacBookPro8*)
 			rmmod b43
 			modprobe b43 btcoex=0
 			modprobe btusb
 			;;
+		# FIXME
+		# Fix MacBook 2013-2015 (Air6/7&Pro11/12) BCM4360 ssb&wl conflict.
+		MacBookPro11* | MacBookPro12* | MacBookAir6* | MacBookAir7*)
+			rmmod b43
+			rmmod ssb
+			rmmod bcma
+			rmmod wl
+			modprobe wl
+			modprobe btusb
+			;;
 		*)
-			for bt in $(lsusb -v | awk ' /Class:.E0/ { print $9 } '); do
+			for bt in $(busybox lsusb -v | awk ' /Class:.E0/ { print $9 } '); do
 				chown 1002.1002 $bt && chmod 660 $bt
 			done
-			modprobe btusb
 			;;
 	esac
 
 	if [ -n "$BTUART_PORT" ]; then
 		set_property hal.bluetooth.uart $BTUART_PORT
 		chown bluetooth.bluetooth $BTUART_PORT
-		btattach -P bcm -B $BTUART_PORT &
-		log -t hciconfig -p i "`hciconfig`"
+		start btattach
 	fi
 }
 
 function init_hal_camera()
 {
-	[ -c /dev/video0 ] || modprobe vivi
+	return
 }
 
 function init_hal_gps()
@@ -93,31 +106,22 @@ function set_drm_mode()
 function init_uvesafb()
 {
 	case "$PRODUCT" in
-		*Q550)
-			UVESA_MODE=${UVESA_MODE:-1280x800}
-			;;
 		ET2002*)
 			UVESA_MODE=${UVESA_MODE:-1600x900}
-			;;
-		T91*)
-			UVESA_MODE=${UVESA_MODE:-1024x600}
-			;;
-		VirtualBox*|Bochs*)
-			UVESA_MODE=${UVESA_MODE:-1024x768}
 			;;
 		*)
 			;;
 	esac
 
 	[ "$HWACCEL" = "0" ] && bpp=16 || bpp=32
-	modprobe uvesafb mode_option=${UVESA_MODE:-800x600}-$bpp ${UVESA_OPTION:-mtrr=3 scroll=redraw}
+	modprobe uvesafb mode_option=${UVESA_MODE:-1024x768}-$bpp ${UVESA_OPTION:-mtrr=3 scroll=redraw}
 }
 
 function init_hal_gralloc()
 {
 	case "$(cat /proc/fb | head -1)" in
 		*virtiodrmfb)
-			set_property ro.hardware.hwcomposer drm
+#			set_property ro.hardware.hwcomposer drm
 			;&
 		0*inteldrmfb|0*radeondrmfb|0*nouveaufb|0*svgadrmfb)
 			set_property ro.hardware.gralloc drm
@@ -159,7 +163,12 @@ function init_hal_power()
 
 function init_hal_sensors()
 {
+	# if we have sensor module for our hardware, use it
+	ro_hardware=$(getprop ro.hardware)
+	[ -f /system/lib/hw/sensors.${ro_hardware}.so ] && return 0
+
 	local hal_sensors=kbd
+	local has_sensors=true
 	case "$(cat $DMIPATH/uevent)" in
 		*Lucid-MWE*)
 			set_property ro.ignore_atkbd 1
@@ -211,14 +220,23 @@ function init_hal_sensors()
 			;;
 		*Aspire1*25*)
 			modprobe lis3lv02d_i2c
-			hal_sensors=hdaps
 			echo -n "enabled" > /sys/class/thermal/thermal_zone0/mode
 			;;
 		*ThinkPad*Tablet*)
 			modprobe hdaps
 			hal_sensors=hdaps
 			;;
+		*i7Stylus*)
+			set_property hal.sensors.iio.accel.matrix 1,0,0,0,-1,0,0,0,-1
+			;;
+		*ST70416-6*)
+			set_property hal.sensors.iio.accel.matrix 0,-1,0,-1,0,0,0,0,-1
+			;;
+		*ONDATablet*)
+			set_property hal.sensors.iio.accel.matrix 0,1,0,1,0,0,0,0,-1
+			;;
 		*)
+			has_sensors=false
 			;;
 	esac
 
@@ -226,9 +244,13 @@ function init_hal_sensors()
 	if [ -n "`ls /sys/bus/iio/devices/iio:device* 2> /dev/null`" ]; then
 		busybox chown -R 1000.1000 /sys/bus/iio/devices/iio:device*/
 		lsmod | grep -q hid_sensor_accel_3d && hal_sensors=hsb || hal_sensors=iio
+	elif lsmod | grep -q lis3lv02d_i2c; then
+		hal_sensors=hdaps
 	fi
 
 	set_property ro.hardware.sensors $hal_sensors
+	[ "$hal_sensors" != "kbd" ] && has_sensors=true
+	set_property config.override_forced_orient $has_sensors
 }
 
 function create_pointercal()
@@ -274,8 +296,10 @@ function init_ril()
 		*TEGA*|*2010:svnIntel:*|*Lucid-MWE*)
 			set_property rild.libpath /system/lib/libhuaweigeneric-ril.so
 			set_property rild.libargs "-d /dev/ttyUSB2 -v /dev/ttyUSB1"
+			set_property ro.radio.noril no
 			;;
 		*)
+			set_property ro.radio.noril yes
 			;;
 	esac
 }
@@ -305,7 +329,6 @@ function do_init()
 	init_hal_sensors
 	init_tscal
 	init_ril
-	chmod 640 /x86.prop
 	post_init
 }
 
@@ -381,16 +404,8 @@ function do_bootcomplete()
 			alsa_amixer -c $c set 'Internal Mic Boost' 3
 		fi
 	done
-}
 
-function do_hci()
-{
-	local hci=`hciconfig | grep ^hci | cut -d: -f1`
-	local btd="`getprop init.svc.bluetoothd`"
-	log -t bluetoothd -p i "$btd ($hci)"
-	if [ -n "`getprop hal.bluetooth.uart`" ]; then
-		[ "`getprop init.svc.bluetoothd`" = "running" ] && hciconfig $hci up
-	fi
+	post_bootcomplete
 }
 
 PATH=/sbin:/system/bin:/system/xbin
@@ -402,18 +417,20 @@ PRODUCT=$(cat $DMIPATH/product_name)
 # import cmdline variables
 for c in `cat /proc/cmdline`; do
 	case $c in
-		androidboot.hardware=*)
+		BOOT_IMAGE=*|iso-scan/*|*.*=*)
 			;;
 		*=*)
 			eval $c
-			case $c in
-				HWACCEL=*)
-					set_property debug.egl.hw $HWACCEL
-					;;
-				DEBUG=*)
-					set_property debug.logcat 1
-					;;
-			esac
+			if [ -z "$1" ]; then
+				case $c in
+					HWACCEL=*)
+						set_property debug.egl.hw $HWACCEL
+						;;
+					DEBUG=*)
+						[ -n "$DEBUG" ] && set_property debug.logcat 1
+						;;
+				esac
+			fi
 			;;
 	esac
 done
@@ -430,9 +447,6 @@ case "$1" in
 		;;
 	bootcomplete)
 		do_bootcomplete
-		;;
-	hci)
-		do_hci
 		;;
 	init|"")
 		do_init

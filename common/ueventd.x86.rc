@@ -1,9 +1,11 @@
-/dev/rfkill               0660   bluetooth  bluetooth
-/dev/ttyS*                0660   system     radio
-/dev/ttyACM*              0660   system     radio
-/dev/ttyUSB*              0660   radio      radio
-/dev/video*               0660   media      system
-/dev/iio:device*          0660   system     system
+/dev/ttyS*                0660  system        radio
+/dev/ttyACM*              0660  system        radio
+/dev/ttyUSB*              0660  radio         radio
+/dev/video*               0660  cameraserver  system
+/dev/iio:device*          0660  system        system
 
 # for bluetooth nodes
-/dev/uhid                 0660   bluetooth bluetooth
+/dev/rfkill               0660  bluetooth     bluetooth
+/dev/uhid                 0660  bluetooth     bluetooth
+
+/sys/devices/system/cpu/cpu*    online        0664   system     system
